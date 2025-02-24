@@ -1,4 +1,4 @@
-# SPG_motion_planner_paper_code
+# A Real-Time Collision-Avoidance Motion Planner for Robot Soccer
 
 https://www.youtube.com/@RoboCupLive
 
