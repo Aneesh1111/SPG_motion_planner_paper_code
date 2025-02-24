@@ -65,3 +65,19 @@ d.subtarget = struct('p',p_initial,'v',[0 0 0],'vmax',[1 1 1],'amax',[1 1 1],'dm
     'segment',repmat(struct('dt',zeros(1,3),'t',zeros(1,3),'p',zeros(1,3),'v',zeros(1,3),'a',zeros(1,3)),1,nsegments),...
     'automatic_substitution_flag',0);
 d.target = struct('p',p_initial,'v',[0 0 0],'eta',0);
+
+subtarget_template = struct('p',p_initial,'v',[0 0 0],'vmax',[1 1 1],'amax',[1 1 1],'dmax',[1 1 1],...
+    'action',0,'collisionfree',false,'target',[0 0 0],'eta',0,'segment_id',zeros(1,3),'age',1e10,...
+    'violation_count',0,...
+    'segment',repmat(struct('dt',zeros(1,3),'t',zeros(1,3),'p',zeros(1,3),'v',zeros(1,3),'a',zeros(1,3)),1,nsegments),...
+    'automatic_substitution_flag',0);
+traj_template = struct('p',zeros(npredict,3),'v',zeros(npredict,3),'a',zeros(npredict,3),'t',zeros(npredict,1),'segment_id',zeros(npredict,3)); %defines prediction horizon
+% Number of subtargets you want in the array
+num_subtargets = 100;
+% Initialize an array of structs using repmat
+d.subtarget_array = repmat(subtarget_template, 1, num_subtargets);
+d.traj_array = repmat(traj_template, 1, num_subtargets);
+
+
+%positions and etas for intercept
+d.intercept_positions_etas = struct('sample',repmat(struct('p',[0 0 0], 'eta',-1.0), 1, nintercept_positions));

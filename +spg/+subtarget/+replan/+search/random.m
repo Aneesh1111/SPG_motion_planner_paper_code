@@ -52,9 +52,9 @@ for i=1:d.par.nattempts_replan
         else  % we are not defending the opponent so we should search the region we specify
             %new candidate
             p_candidate = [(upperbound-lowerbound).*rand(1,2)+lowerbound search_point(3)];
-            if norm(search_point(1:2)-p_candidate(1:2))>search_distance
-                continue
-            end
+%             if norm(search_point(1:2)-p_candidate(1:2))>search_distance
+%                 continue
+%             end
             %aux
             subtarget_target_distance = norm(p_candidate(1:2)-d.target.p(1:2));
             subtarget_robot_distance = norm(p_candidate(1:2)-d.setpoint.p(1:2));
@@ -78,14 +78,17 @@ for i=1:d.par.nattempts_replan
                 v_subtarget_x = sign(d.target.v(1)-d.input.robot.v(1))*min(abs(d.target.v(1)-d.input.robot.v(1)), vx_max);
                 v_subtarget_y = sign(d.target.v(2)-d.input.robot.v(2))*min(abs(d.target.v(2)-d.input.robot.v(2)), vy_max);
                 subtarget_candidate.v = [v_subtarget_x, v_subtarget_y, 0];
+                input1 = d;
+                input2 = subtarget_candidate;
                 subtarget_candidate = spg.subtarget.replan.determine_setpoint_limits(d, subtarget_candidate);
+                output1 = subtarget_candidate;
                 subtarget_candidate = spg.subtarget.check_collisionfree(d, subtarget_candidate, d.par.margin_replan);
 
                 d.subtarget_array((i-1)*10 + j) = subtarget_candidate;
                 d.traj_array((i-1)*10 + j) = d.traj;
 
                 best = spg.subtarget.replan.update_best(best, subtarget_candidate, d.target);
-                return
+%                 return
             end
         end
     end
